@@ -7,9 +7,11 @@ cmake_minimum_required(VERSION 3.14 FATAL_ERROR)
 
 project(cmake_strict_defaults LANGUAGES CXX)
 
-# For options that are not necessary to use the library, but are how I want to
-# compile tests
+# For options that are necessary to use libraries: turn on latest language
+# features
 add_library(strict_defaults_interface INTERFACE)
+# For options that are not necessary to use libraries, but are how I want to
+# compile tests and source files
 add_library(strict_defaults INTERFACE)
 
 target_link_libraries(strict_defaults INTERFACE strict_defaults_interface)
