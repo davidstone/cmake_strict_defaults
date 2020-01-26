@@ -32,8 +32,6 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 		)
 	else()
 		target_compile_options(strict_defaults_interface INTERFACE
-			"-Xclang"
-			"-fconcepts-ts"
 			"-std=c++2a"
 			"-stdlib=libc++"
 		)
