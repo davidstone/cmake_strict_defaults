@@ -34,6 +34,7 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 		target_compile_options(strict_defaults_interface INTERFACE
 			"-std=c++2a"
 			"-stdlib=libc++"
+			"-fmodules"
 		)
 		target_link_options(strict_defaults_interface INTERFACE
 			"-stdlib=libc++"
@@ -53,6 +54,8 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 		"-Wno-c++98-compat"
 		# Don't need compatibility with older standards
 		"-Wno-c++98-compat-pedantic"
+		# Standard library modules are quite supported yet, it seems
+		"-Wno-auto-import"
 		# This warning tries to enforce a particular coding standard
 		"-Wno-ctad-maybe-unsupported"
 		# Complains about comments like "//<N3757>" referring to an ISO paper number
