@@ -54,7 +54,7 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 		"-Wno-c++98-compat"
 		# Don't need compatibility with older standards
 		"-Wno-c++98-compat-pedantic"
-		# Standard library modules are quite supported yet, it seems
+		# Standard library modules are not quite supported yet, it seems
 		"-Wno-auto-import"
 		# This warning tries to enforce a particular coding standard
 		"-Wno-ctad-maybe-unsupported"
@@ -75,8 +75,11 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 		"-Wno-switch-enum"
 		# https://llvm.org/bugs/show_bug.cgi?id=25084
 		"-Wno-unneeded-member-function"
-		"-Wno-unused-function"
+		# https://llvm.org/bugs/show_bug.cgi?id=25084
 		"-Wno-unused-member-function"
+		# https://llvm.org/bugs/show_bug.cgi?id=25084
+		"-Wno-unused-function"
+		# https://llvm.org/bugs/show_bug.cgi?id=25084
 		"-Wno-unused-template"
 		# -Wweak-vtables is incompatible with header-only libraries. It also
 		# becomes irrelevant after modules.
