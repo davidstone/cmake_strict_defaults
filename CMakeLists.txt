@@ -219,8 +219,8 @@ set(sanitizers "-fsanitize=address;-fsanitize=undefined")
 
 if(DEFINED use_sanitizers)
 	if(${use_sanitizers})
-		target_compile_options(strict_defaults PUBLIC ${sanitizers})
-		target_link_options(strict_defaults PUBLIC ${sanitizers})
+		target_compile_options(strict_defaults INTERFACE ${sanitizers})
+		target_link_options(strict_defaults INTERFACE ${sanitizers})
 	endif()
 else()
 	target_compile_options(strict_defaults INTERFACE
