@@ -34,7 +34,8 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 		target_compile_options(strict_defaults_interface INTERFACE
 			"-std=c++20"
 			"-stdlib=libc++"
-			"-fmodules"
+			# range-v3 doesn't seem to work with this
+			# "-fmodules"
 		)
 		target_link_options(strict_defaults_interface INTERFACE
 			"-stdlib=libc++"
