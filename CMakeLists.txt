@@ -104,41 +104,6 @@ elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 	)
 
 	target_compile_options(strict_defaults INTERFACE
-		# We have to start by turning off all warnings just so we can disable a
-		# warning about an inaccessible base class. Then we turn on all
-		# possible warnings. This means that some on-by-default warnings are
-		# disabled with no way to re-enable. See
-		# https://gcc.gnu.org/bugzilla/show_bug.cgi?id=90449.
-		"-w"
-		"-Waggressive-loop-optimizations"
-		"-Wattribute-alias=2"
-		"-Wattributes"
-		"-Wattribute-warning"
-		"-Wbuiltin-declaration-mismatch"
-		"-Wbuiltin-macro-redefined"
-		"-Wconversion-null"
-		"-Wcoverage-mismatch"
-		"-Wcpp"
-		"-Wdeprecated"
-		"-Wdeprecated-declarations"
-		"-Wdiv-by-zero"
-		"-Wendif-labels"
-		"-Wfree-nonheap-object"
-		"-Winherited-variadic-ctor"
-		"-Wint-to-pointer-cast"
-		"-Winvalid-offsetof"
-		"-Wmultichar"
-		"-Wodr"
-		"-Woverflow"
-		"-Wpragmas"
-		"-Wprio-ctor-dtor"
-		"-Wrestrict"
-		"-Wreturn-local-addr"
-		"-Wscalar-storage-order"
-		"-Wunused-result"
-		"-Wvariadic-macros"
-		"-Wvirtual-move-assign"
-
 		"-Wall"
 		"-Wextra"
 		"-Wpedantic"
@@ -159,6 +124,8 @@ elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 		# There are too many cases of correct exact comparisons
 		"-Wno-float-equal"
 		"-Wformat=2"
+		# Warns for `static_cast<decltype(x)>`
+		"-Wno-ignored-qualifiers"
 		"-Winit-self"
 		"-Winvalid-pch"
 		# -Wlogical-op warns for expressions that happen to be equal in a
@@ -176,7 +143,8 @@ elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 		"-Wno-padded"
 		"-Wredundant-decls"
 		"-Wshadow"
-		"-Wsign-conversion"
+		# Warns for constant expressions that are guaranteed to be safe
+		"-Wno-sign-conversion"
 		"-Wsign-promo"
 		# -Wsuggest-final-methods and -Wsuggest-final-types is a linker warning,
 		# so it is not possible to disable it for boost and other third-party
@@ -186,8 +154,10 @@ elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 		"-Wstrict-null-sentinel"
 		# -Wstrict-overflow=2 warns about comparing two pointers
 		"-Wstrict-overflow=1"
-		"-Wswitch-default"
-		"-Wswitch-enum"
+		# -Wswitch-enum warns even if all enumerators are handled
+		"-Wno-switch-default"
+		# -Wswitch-enum warns even if there is a default
+		"-Wno-switch-enum"
 		"-Wtrampolines"
 		"-Wundef"
 		# -Wunsafe-loop-optimizations causes too many spurious warnings. It may
@@ -206,6 +176,8 @@ elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 		# Incompatible with operator?: macro
 		# "-Wuseless-cast"
 		"-Wvector-operation-performance"
+		# Warns on explicit template instantiations due to some bug
+		"-Wno-unused-parameter"
 		# -Wzero-as-null-pointer-constant does not work with the `operator<=>`
 		# emulation
 		# "-Wzero-as-null-pointer-constant"
