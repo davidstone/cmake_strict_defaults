@@ -184,7 +184,7 @@ elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 		"-Werror"
 
 		"-g"
-		$<$<CONFIG:Release>:-flto=4 -flto-odr-type-merging -fuse-linker-plugin>
+		# $<$<CONFIG:Release>:-flto=4 -flto-odr-type-merging -fuse-linker-plugin>
 	)
 	target_link_options(strict_defaults INTERFACE
 		"-Wl,--fatal-warnings"
