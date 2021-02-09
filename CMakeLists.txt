@@ -31,6 +31,8 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 			"/WX"
 		)
 	else()
+		set(sanitizers "-fsanitize=address;-fsanitize=undefined")
+
 		target_compile_options(strict_defaults_interface INTERFACE
 			"-std=c++20"
 			"-stdlib=libc++"
@@ -93,9 +95,12 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 	)
 
 elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+	# Do not use -fsanitize=undefined because it triggers
+	# https://gcc.gnu.org/bugzilla/show_bug.cgi?id=98988
+	set(sanitizers "-fsanitize=address")
+
 	target_compile_options(strict_defaults_interface INTERFACE
 		"-std=c++20"
-		"-fconcepts"
 	)
 
 	target_compile_options(strict_defaults INTERFACE
@@ -215,8 +220,6 @@ elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 else()
 	message(FATAL_ERROR "Unknown compiler ${CMAKE_CXX_COMPILER_ID}")
 endif()
-
-set(sanitizers "-fsanitize=address;-fsanitize=undefined")
 
 if(DEFINED use_sanitizers)
 	if(${use_sanitizers})
