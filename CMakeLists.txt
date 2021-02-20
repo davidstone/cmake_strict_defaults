@@ -69,8 +69,6 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 		"-Wno-padded"
 		# Warns about intentional copies in range-based for loops
 		"-Wno-range-loop-analysis"
-		# Don't need compatibility with older standards
-		"-Wno-return-std-move-in-c++11"
 		# -Wswitch-enum warns even if you have default
 		"-Wno-switch-enum"
 		# https://llvm.org/bugs/show_bug.cgi?id=25084
