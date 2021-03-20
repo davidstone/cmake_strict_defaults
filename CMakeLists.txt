@@ -62,6 +62,8 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 		"-Wno-documentation"
 		# There are too many cases of correct exact comparisons
 		"-Wno-float-equal"
+		# https://bugs.llvm.org/show_bug.cgi?id=49665
+		"-Wno-for-loop-analysis"
 		# -Wmissing-braces wants two sets of braces for std::array
 		"-Wno-missing-braces"
 		"-Wno-newline-eof"
