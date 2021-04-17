@@ -32,7 +32,7 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 		)
 	else()
 		target_compile_options(strict_defaults_interface INTERFACE
-			"-std=c++20"
+			"-std=c++2b"
 			"-stdlib=libc++"
 			"-fmodules"
 		)
@@ -93,7 +93,7 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 
 elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 	target_compile_options(strict_defaults_interface INTERFACE
-		"-std=c++20"
+		"-std=c++2b"
 		"-fconcepts"
 	)
 
