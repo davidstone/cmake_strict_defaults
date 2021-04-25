@@ -107,7 +107,11 @@ elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 		"-Wcast-qual"
 		# https://gcc.gnu.org/bugzilla/show_bug.cgi?id=39170
 		#"-Wconversion"
-		"-Wctor-dtor-privacy"
+		# A reasonable code pattern is to use a private member function with
+		# `if constexpr (requires { expr; }) { static_assert(expr); } }`
+		# This might be the only member function of a class if it's a trait
+		# class. Such a pattern triggers this warning.
+		"-Wno-ctor-dtor-privacy"
 		"-Wdisabled-optimization"
 		"-Wdouble-promotion"
 		# -Weffc++ includes a warning if all data members are not explicitly
