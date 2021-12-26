@@ -33,11 +33,9 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 	else()
 		target_compile_options(strict_defaults_interface INTERFACE
 			"-std=c++2b"
-			"-stdlib=libc++"
 			"-fmodules"
 		)
 		target_link_options(strict_defaults_interface INTERFACE
-			"-stdlib=libc++"
 			"-fuse-ld=lld"
 		)
 		target_link_options(strict_defaults INTERFACE
