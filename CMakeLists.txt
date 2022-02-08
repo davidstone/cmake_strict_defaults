@@ -35,9 +35,6 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 			"-std=c++2b"
 			"-fmodules"
 		)
-		target_link_options(strict_defaults_interface INTERFACE
-			"-fuse-ld=lld"
-		)
 		target_link_options(strict_defaults INTERFACE
 			"-Wl,--fatal-warnings"
 			# TODO: Figure out how to make this work on Visual Studio
