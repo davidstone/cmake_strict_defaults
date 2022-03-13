@@ -57,29 +57,30 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 		"-Wno-documentation"
 		# There are too many cases of correct exact comparisons
 		"-Wno-float-equal"
-		# https://bugs.llvm.org/show_bug.cgi?id=49665
+		# https://github.com/llvm/llvm-project/issues/49009
 		"-Wno-for-loop-analysis"
 		# -Wmissing-braces wants two sets of braces for std::array
 		"-Wno-missing-braces"
 		"-Wno-newline-eof"
-		# https://bugs.llvm.org/show_bug.cgi?id=22442#c5
+		# https://github.com/llvm/llvm-project/issues/22816#issuecomment-980941775
 		"-Wno-padded"
 		# Warns about intentional copies in range-based for loops
 		"-Wno-range-loop-analysis"
 		# -Wswitch-enum warns even if you have default
 		"-Wno-switch-enum"
-		# https://llvm.org/bugs/show_bug.cgi?id=25084
+		# https://github.com/llvm/llvm-project/issues/25458
 		"-Wno-unneeded-member-function"
-		# https://llvm.org/bugs/show_bug.cgi?id=25084
+		# https://github.com/llvm/llvm-project/issues/25458
 		"-Wno-unused-member-function"
-		# https://llvm.org/bugs/show_bug.cgi?id=25084
+		# https://github.com/llvm/llvm-project/issues/25458
 		"-Wno-unused-function"
-		# https://llvm.org/bugs/show_bug.cgi?id=25084
+		# https://github.com/llvm/llvm-project/issues/25458
 		"-Wno-unused-template"
 		# -Wweak-vtables is incompatible with header-only libraries. It also
 		# becomes irrelevant after modules.
 		"-Wno-weak-vtables"
-		# https://bugs.llvm.org/show_bug.cgi?id=44325
+		# https://github.com/llvm/llvm-project/issues/43670
+		# https://github.com/llvm/llvm-project/issues/50221
 		"-Wno-zero-as-null-pointer-constant"
 
 		"-g"
