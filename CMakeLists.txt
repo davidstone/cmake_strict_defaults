@@ -79,6 +79,8 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 		"-Wno-unused-function"
 		# https://github.com/llvm/llvm-project/issues/25458
 		"-Wno-unused-template"
+		# https://github.com/llvm/llvm-project/issues/59665
+		"-Wno-unsafe-buffer-usage"
 		# -Wweak-vtables is incompatible with header-only libraries. It also
 		# becomes irrelevant after modules.
 		"-Wno-weak-vtables"
