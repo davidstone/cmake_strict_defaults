@@ -58,6 +58,10 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 		"-Wno-for-loop-analysis"
 		# -Wmissing-braces wants two sets of braces for std::array
 		"-Wno-missing-braces"
+		# No longer relevant with modules
+		"-Wno-missing-prototypes"
+		# No longer relevant with modules
+		"-Wno-missing-variable-declarations"
 		"-Wno-newline-eof"
 		# https://github.com/llvm/llvm-project/issues/22816#issuecomment-980941775
 		"-Wno-padded"
