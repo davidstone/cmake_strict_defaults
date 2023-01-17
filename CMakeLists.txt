@@ -21,9 +21,6 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 		# Sanitizers currently do not work very well on Windows
 		set(use_sanitizers OFF)
 
-		target_compile_options(strict_defaults_interface INTERFACE
-			"/std:c++latest"
-		)
 		target_compile_options(strict_defaults INTERFACE
 			"/MP"
 		)
@@ -31,9 +28,6 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 			"/WX"
 		)
 	else()
-		target_compile_options(strict_defaults_interface INTERFACE
-			"-std=c++2b"
-		)
 		target_link_options(strict_defaults INTERFACE
 			"-Wl,--fatal-warnings"
 			# TODO: Figure out how to make this work on Visual Studio
@@ -94,7 +88,6 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 
 elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 	target_compile_options(strict_defaults_interface INTERFACE
-		"-std=c++2b"
 		"-fconcepts"
 	)
 
