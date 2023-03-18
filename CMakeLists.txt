@@ -32,6 +32,7 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 			"-Wl,--fatal-warnings"
 			# TODO: Figure out how to make this work on Visual Studio
 			"-Wl,--thinlto-cache-dir=${CMAKE_BINARY_DIR}/lto-cache"
+			$<$<CONFIG:Release>:-flto=thin>
 		)
 	endif()
 
