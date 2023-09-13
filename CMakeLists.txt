@@ -47,8 +47,6 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 		"-Wno-c++98-compat"
 		# Don't need compatibility with older standards
 		"-Wno-c++98-compat-pedantic"
-		# Standard library modules are not quite supported yet, it seems
-		"-Wno-auto-import"
 		# This warning tries to enforce a particular coding standard
 		"-Wno-ctad-maybe-unsupported"
 		# Complains about comments like "//<N3757>" referring to an ISO paper number
@@ -80,15 +78,13 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 		"-Wno-unused-function"
 		# https://github.com/llvm/llvm-project/issues/25458
 		"-Wno-unused-template"
-		# https://github.com/llvm/llvm-project/issues/59665
+		# Causes a conflict in module definitions. TODO: file bug
 		"-Wno-unsafe-buffer-usage"
 		# -Wweak-vtables is incompatible with header-only libraries. It also
 		# becomes irrelevant after modules.
 		"-Wno-weak-vtables"
 		# https://github.com/llvm/llvm-project/issues/43670
-		# https://github.com/llvm/llvm-project/issues/50221
 		"-Wno-zero-as-null-pointer-constant"
-
 		"-g"
 		$<$<CONFIG:Release>:-flto=thin>
 	)
@@ -181,7 +177,6 @@ elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 		# emulation
 		# "-Wzero-as-null-pointer-constant"
 		"-Werror"
-
 		"-g"
 		# $<$<CONFIG:Release>:-flto=4 -flto-odr-type-merging -fuse-linker-plugin>
 	)
