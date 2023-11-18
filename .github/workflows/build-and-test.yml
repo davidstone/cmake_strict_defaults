@@ -2,10 +2,15 @@ name: Build and test
 
 on:
   workflow_call:
-
-env:
-  build_type: ${{github.event.inputs.build_type || 'Debug'}}
-  dependencies: ${{github.event.inputs.dependencies || ''}}
+    inputs:
+      build_type:
+        description: 'Debug or Release'
+        default: 'Debug'
+        type: string
+      dependencies:
+        description: 'List of extra dependencies to install'
+        default: ''
+        type: string
 
 jobs:
   build:
@@ -17,7 +22,7 @@ jobs:
     - name: Install clang dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install libtinfo5 mold ${{env.dependencies}}
+        sudo apt-get install libtinfo5 mold ${{inputs.dependencies}}
 
     - name: Install clang
       run: |
@@ -31,14 +36,14 @@ jobs:
       run: git submodule update --init
 
     - name: Configure CMake
-      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.build_type}} -G"Ninja" -DCMAKE_CXX_COMPILER="clang++-17" -DCMAKE_EXE_LINKER_FLAGS="-fuse-ld=mold"
+      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{inputs.build_type}} -G"Ninja" -DCMAKE_CXX_COMPILER="clang++-17" -DCMAKE_EXE_LINKER_FLAGS="-fuse-ld=mold"
 
     - name: Build
       # Build your program with the given configuration
-      run: cmake --build ${{github.workspace}}/build --config ${{env.build_type}}
+      run: cmake --build ${{github.workspace}}/build --config ${{inputs.build_type}}
 
     - name: Test
       working-directory: ${{github.workspace}}/build
       # Execute tests defined by the CMake configuration.
       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
-      run: ctest -C ${{env.build_type}}
+      run: ctest -C ${{inputs.build_type}}
