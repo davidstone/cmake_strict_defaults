@@ -44,6 +44,8 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 		# Don't need compatibility with older standards
 		"-Wno-c++20-extensions"
 		# Don't need compatibility with older standards
+		"-Wno-pre-c++26-compat"
+		# Don't need compatibility with older standards
 		"-Wno-c++98-compat"
 		# Don't need compatibility with older standards
 		"-Wno-c++98-compat-pedantic"
