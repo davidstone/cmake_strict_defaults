@@ -71,8 +71,6 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 		"-Wno-padded"
 		# Warns about intentional copies in range-based for loops
 		"-Wno-range-loop-analysis"
-		# Need to wait for CMake to update how it generates files for clang
-		"-Wno-read-modules-implicitly"
 		# -Wswitch-default warns even if all enumerators are handled
 		"-Wno-switch-default"
 		# -Wswitch-enum warns even if you have default
