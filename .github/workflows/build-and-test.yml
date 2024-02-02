@@ -11,6 +11,10 @@ on:
         description: 'List of extra dependencies to install'
         default: ''
         type: string
+      cmake_args:
+        description: 'List of extra CMake arguments'
+        default: ''
+        type: string
 
 jobs:
   build:
@@ -35,7 +39,7 @@ jobs:
     - uses: lukka/get-cmake@latest
 
     - name: Configure CMake
-      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{inputs.build_type}} -G"Ninja" -DCMAKE_CXX_COMPILER="clang++-18" -DCMAKE_EXE_LINKER_FLAGS="-fuse-ld=mold"
+      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{inputs.build_type}} -G"Ninja" -DCMAKE_CXX_COMPILER="clang++-18" -DCMAKE_EXE_LINKER_FLAGS="-fuse-ld=mold" ${{inputs.cmake_args}}
 
     - name: Build
       run: cmake --build ${{github.workspace}}/build --config ${{inputs.build_type}}
