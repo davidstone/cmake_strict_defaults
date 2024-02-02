@@ -11,5 +11,4 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: davidstone/cmake_strict_defaults/action.yml@main
+    - uses: davidstone/cmake_strict_defaults@main
