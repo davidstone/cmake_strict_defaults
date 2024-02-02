@@ -26,26 +26,26 @@ runs:
     run: |
       sudo apt-get update
       sudo apt-get install mold ${{inputs.dependencies}}
-    shell: bash
+    - shell: bash
 
   - name: Install clang
     run: |
       wget https://apt.llvm.org/llvm.sh
       chmod u+x llvm.sh
       sudo ./llvm.sh 18 all
-    shell: bash
+    - shell: bash
 
   - uses: lukka/get-cmake@latest
 
   - name: Configure CMake
     run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{inputs.build_type}} -G"Ninja" -DCMAKE_CXX_COMPILER="clang++-18" -DCMAKE_EXE_LINKER_FLAGS="-fuse-ld=mold" ${{inputs.cmake_args}}
-    shell: bash
+    - shell: bash
 
   - name: Build
     run: cmake --build ${{github.workspace}}/build --config ${{inputs.build_type}}
-    shell: bash
+    - shell: bash
 
   - name: Test
     working-directory: ${{github.workspace}}/build
     run: ctest -C ${{inputs.build_type}} --output-on-failure
-    shell: bash
+    - shell: bash
