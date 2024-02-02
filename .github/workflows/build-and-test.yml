@@ -24,7 +24,7 @@ jobs:
     - name: Install clang dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install libtinfo5 mold ${{inputs.dependencies}}
+        sudo apt-get install mold ${{inputs.dependencies}}
 
     - name: Install clang
       run: |
