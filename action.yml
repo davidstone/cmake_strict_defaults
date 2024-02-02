@@ -18,34 +18,34 @@ inputs:
 runs:
   using: 'composite'
   steps:
-  - uses: actions/checkout@v4
-    with:
-      submodules: true
-
-  - name: Install clang dependencies
-    shell: bash
-    run: |
-      sudo apt-get update
-      sudo apt-get install mold ${{inputs.dependencies}}
-
-  - name: Install clang
-    shell: bash
-    run: |
-      wget https://apt.llvm.org/llvm.sh
-      chmod u+x llvm.sh
-      sudo ./llvm.sh 18 all
-
-  - uses: lukka/get-cmake@latest
-
-  - name: Configure CMake
-    shell: bash
-    run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{inputs.build_type}} -G"Ninja" -DCMAKE_CXX_COMPILER="clang++-18" -DCMAKE_EXE_LINKER_FLAGS="-fuse-ld=mold" ${{inputs.cmake_args}}
-
-  - name: Build
-    shell: bash
-    run: cmake --build ${{github.workspace}}/build --config ${{inputs.build_type}}
-
-  - name: Test
-    shell: bash
-    working-directory: ${{github.workspace}}/build
-    run: ctest -C ${{inputs.build_type}} --output-on-failure
+    - uses: actions/checkout@v4
+      with:
+        submodules: true
+  
+    - name: Install clang dependencies
+      shell: bash
+      run: |
+        sudo apt-get update
+        sudo apt-get install mold ${{inputs.dependencies}}
+  
+    - name: Install clang
+      shell: bash
+      run: |
+        wget https://apt.llvm.org/llvm.sh
+        chmod u+x llvm.sh
+        sudo ./llvm.sh 18 all
+  
+    - uses: lukka/get-cmake@latest
+  
+    - name: Configure CMake
+      shell: bash
+      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{inputs.build_type}} -G"Ninja" -DCMAKE_CXX_COMPILER="clang++-18" -DCMAKE_EXE_LINKER_FLAGS="-fuse-ld=mold" ${{inputs.cmake_args}}
+  
+    - name: Build
+      shell: bash
+      run: cmake --build ${{github.workspace}}/build --config ${{inputs.build_type}}
+  
+    - name: Test
+      shell: bash
+      working-directory: ${{github.workspace}}/build
+      run: ctest -C ${{inputs.build_type}} --output-on-failure
