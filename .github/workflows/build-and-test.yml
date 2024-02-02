@@ -12,3 +12,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: davidstone/cmake_strict_defaults@main
+      with:
+        cmake_args: '-S test'
