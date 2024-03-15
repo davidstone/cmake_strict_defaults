@@ -85,6 +85,8 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 		"-Wno-unused-template"
 		# Causes a conflict in module definitions. TODO: file bug
 		"-Wno-unsafe-buffer-usage"
+		# https://github.com/llvm/llvm-project/issues/85122
+		"-Wno-unused-const-variable"
 		# -Wweak-vtables is incompatible with header-only libraries. It also
 		# becomes irrelevant after modules.
 		"-Wno-weak-vtables"
