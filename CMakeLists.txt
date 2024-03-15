@@ -67,6 +67,10 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 		# No longer relevant with modules
 		"-Wno-missing-variable-declarations"
 		"-Wno-newline-eof"
+		# The only problem is deleting through a pointer to base with a
+		# non-virtual destructor. clang does warn about that case, so this
+		# warning is only false positives.
+		"-Wno-non-virtual-dtor"
 		# https://github.com/llvm/llvm-project/issues/22816#issuecomment-980941775
 		"-Wno-padded"
 		# Warns about intentional copies in range-based for loops
