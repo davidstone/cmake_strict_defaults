@@ -35,7 +35,6 @@ runs:
     - name: Install clang
       shell: bash
       run: |
-        echo "${{inputs.clang_version}}"
         if [ "${{inputs.clang_version}}" = "main" ]; then
           wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
           sudo add-apt-repository "deb https://apt.llvm.org/$(lsb_release -sc)/ llvm-toolchain-$(lsb_release -sc) main"
