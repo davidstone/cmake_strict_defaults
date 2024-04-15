@@ -10,6 +10,10 @@ inputs:
     description: 'List of extra dependencies to install'
     default: ''
     type: string
+  clang_version:
+    description: 'clang version to use (number)'
+    default: 'main'
+    type: string
   cmake_args:
     description: 'List of extra CMake arguments'
     default: ''
@@ -31,15 +35,33 @@ runs:
     - name: Install clang
       shell: bash
       run: |
-        wget https://apt.llvm.org/llvm.sh
-        chmod u+x llvm.sh
-        sudo ./llvm.sh 18 all
+        if [ "${{inputs.clang_version}}" = "main" ]; then
+          wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
+          sudo add-apt-repository "deb https://apt.llvm.org/$(lsb_release -sc)/ llvm-toolchain-$(lsb_release -sc) main"
+          sudo apt-get update
+          sudo apt-get install clang
+          echo "CLANG_BINARY_VERSION=$(clang++ --version | head -n 1 | cut -f 4 -d ' ' | cut -f 1 -d '.')" >> $GITHUB_ENV
+          sudo apt-get install clang-tools-$CLANG_BINARY_VERSION
+        else
+          wget https://apt.llvm.org/llvm.sh
+          chmod u+x llvm.sh
+          sudo ./llvm.sh ${{inputs.clang_version}} all
+          echo "CLANG_BINARY_VERSION=${{inputs.clang_version}}" >> $GITHUB_ENV
+        fi
   
     - uses: lukka/get-cmake@latest
   
     - name: Configure CMake
       shell: bash
-      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{inputs.build_type}} -G"Ninja" -DCMAKE_CXX_COMPILER="clang++-18" -DCMAKE_EXE_LINKER_FLAGS="-fuse-ld=mold" ${{inputs.cmake_args}}
+      run: |
+        cmake \
+          -B ${{github.workspace}}/build \
+          -DCMAKE_BUILD_TYPE=${{inputs.build_type}} \
+          -G"Ninja" \
+          -DCMAKE_CXX_COMPILER=clang++-$CLANG_BINARY_VERSION \
+          -DCMAKE_CXX_COMPILER_CLANG_SCAN_DEPS="/usr/bin/clang-scan-deps-$CLANG_BINARY_VERSION \
+          -DCMAKE_EXE_LINKER_FLAGS="-fuse-ld=mold" \
+          ${{inputs.cmake_args}}
   
     - name: Build
       shell: bash
