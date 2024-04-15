@@ -43,7 +43,6 @@ runs:
           # $GITHUB_ENV doesn't update the environment within a step...
           CLANG_BINARY_VERSION=$(clang++ --version | head -n 1 | cut -f 4 -d ' ' | cut -f 1 -d '.')
           echo "CLANG_BINARY_VERSION=$CLANG_BINARY_VERSION" >> $GITHUB_ENV
-          echo "running sudo apt-get install clang-tools-$CLANG_BINARY_VERSION"
           sudo apt-get install clang-tools-$CLANG_BINARY_VERSION
         else
           wget https://apt.llvm.org/llvm.sh
