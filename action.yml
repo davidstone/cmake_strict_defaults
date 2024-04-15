@@ -58,8 +58,8 @@ runs:
           -B ${{github.workspace}}/build \
           -DCMAKE_BUILD_TYPE=${{inputs.build_type}} \
           -G"Ninja" \
-          -DCMAKE_CXX_COMPILER=clang++-$CLANG_BINARY_VERSION \
-          -DCMAKE_CXX_COMPILER_CLANG_SCAN_DEPS="/usr/bin/clang-scan-deps-$CLANG_BINARY_VERSION \
+          -DCMAKE_CXX_COMPILER="clang++-$CLANG_BINARY_VERSION" \
+          -DCMAKE_CXX_COMPILER_CLANG_SCAN_DEPS="/usr/bin/clang-scan-deps-$CLANG_BINARY_VERSION" \
           -DCMAKE_EXE_LINKER_FLAGS="-fuse-ld=mold" \
           ${{inputs.cmake_args}}
   
