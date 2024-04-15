@@ -40,7 +40,9 @@ runs:
           sudo add-apt-repository "deb https://apt.llvm.org/$(lsb_release -sc)/ llvm-toolchain-$(lsb_release -sc) main"
           sudo apt-get update
           sudo apt-get install clang
-          echo "CLANG_BINARY_VERSION=$(clang++ --version | head -n 1 | cut -f 4 -d ' ' | cut -f 1 -d '.')" >> $GITHUB_ENV
+          # $GITHUB_ENV doesn't update the environment within a step...
+          CLANG_BINARY_VERSION=$(clang++ --version | head -n 1 | cut -f 4 -d ' ' | cut -f 1 -d '.')
+          echo "CLANG_BINARY_VERSION=$CLANG_BINARY_VERSION" >> $GITHUB_ENV
           echo "running sudo apt-get install clang-tools-$CLANG_BINARY_VERSION"
           sudo apt-get install clang-tools-$CLANG_BINARY_VERSION
         else
