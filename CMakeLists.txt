@@ -99,6 +99,12 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 		"-g"
 		$<$<CONFIG:Release>:-flto=thin>
 	)
+	if (NOT CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 19)
+		target_compile_options(strict_defaults INTERFACE
+			# Do not warn about [[assume(condition)]]
+			"-Wno-unknown-attributes"
+		)
+	endif()
 
 elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 	target_compile_options(strict_defaults_interface INTERFACE
