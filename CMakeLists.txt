@@ -73,6 +73,9 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 		"-Wno-non-virtual-dtor"
 		# https://github.com/llvm/llvm-project/issues/22816#issuecomment-980941775
 		"-Wno-padded"
+		# Warns when certain code cannot be optimized, but there isn't always
+		# something I can do about that.
+		"-Wno-pass-failed"
 		# Warns about intentional copies in range-based for loops
 		"-Wno-range-loop-analysis"
 		# -Wswitch-default warns even if all enumerators are handled
