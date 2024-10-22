@@ -97,7 +97,6 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 		"-Wno-weak-vtables"
 		# https://github.com/llvm/llvm-project/issues/43670
 		"-Wno-zero-as-null-pointer-constant"
-		"-g"
 		$<$<CONFIG:Release>:-flto=thin>
 	)
 	if (NOT CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 19)
