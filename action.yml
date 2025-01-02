@@ -36,8 +36,8 @@ runs:
       shell: bash
       run: |
         if [ "${{inputs.clang_version}}" = "main" ]; then
-          wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
-          sudo add-apt-repository "deb https://apt.llvm.org/$(lsb_release -sc)/ llvm-toolchain-$(lsb_release -sc) main"
+          wget -qO- https://apt.llvm.org/llvm-snapshot.gpg.key | sudo tee /etc/apt/trusted.gpg.d/llvm.asc > /dev/null
+          echo "deb [signed-by=/etc/apt/trusted.gpg.d/llvm.asc] https://apt.llvm.org/$(lsb_release -sc)/ llvm-toolchain-$(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/llvm.list > /dev/null
           sudo apt-get update
           sudo apt-get install clang
           # $GITHUB_ENV doesn't update the environment within a step...
