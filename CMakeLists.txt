@@ -107,10 +107,6 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 	endif()
 
 elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-	target_compile_options(strict_defaults_interface INTERFACE
-		"-fconcepts"
-	)
-
 	target_compile_options(strict_defaults INTERFACE
 		"-Wall"
 		"-Wextra"
