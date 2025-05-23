@@ -73,6 +73,8 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 		# non-virtual destructor. clang does warn about that case, so this
 		# warning is only false positives.
 		"-Wno-non-virtual-dtor"
+		# It's fine for it to not always apply
+		"-Wno-nrvo"
 		# https://github.com/llvm/llvm-project/issues/22816#issuecomment-980941775
 		"-Wno-padded"
 		# Warns when certain code cannot be optimized, but there isn't always
