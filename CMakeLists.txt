@@ -66,6 +66,8 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 		"-Wno-missing-prototypes"
 		# No longer relevant with modules
 		"-Wno-missing-variable-declarations"
+		# Don't want to write worse code because of the MS ABI
+		"-Wno-ms-bitfield-padding"
 		"-Wno-newline-eof"
 		# The only problem is deleting through a pointer to base with a
 		# non-virtual destructor. clang does warn about that case, so this
