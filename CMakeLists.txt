@@ -62,6 +62,9 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 		"-Wno-for-loop-analysis"
 		# -Wmissing-braces wants two sets of braces for std::array
 		"-Wno-missing-braces"
+		# Suggests noreturn on tons of lambdas that just have a body of
+		# `throw whatever`, which adds too much noise
+		"-Wno-missing-noreturn"
 		# No longer relevant with modules
 		"-Wno-missing-prototypes"
 		# No longer relevant with modules
