@@ -95,6 +95,8 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 		"-Wno-switch-enum"
 		# https://github.com/llvm/llvm-project/issues/25458
 		"-Wno-unneeded-member-function"
+		# This breaks compilation. Disable until I can track down what
+		"-Wno-unused-command-line-argument"
 		# https://github.com/llvm/llvm-project/issues/25458
 		"-Wno-unused-member-function"
 		# https://github.com/llvm/llvm-project/issues/25458
