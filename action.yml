@@ -22,7 +22,7 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@0c366fd6a839edf440554fa01a7085ccba70ac98
       with:
         submodules: true
   
@@ -51,7 +51,7 @@ runs:
           echo "CLANG_BINARY_VERSION=${{inputs.clang_version}}" >> $GITHUB_ENV
         fi
   
-    - uses: lukka/get-cmake@latest
+    - uses: lukka/get-cmake@b78306120111dc2522750771cfd09ee7ca723687
   
     - name: Configure CMake
       shell: bash
