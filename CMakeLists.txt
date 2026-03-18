@@ -17,6 +17,10 @@ add_library(strict_defaults INTERFACE)
 target_link_libraries(strict_defaults INTERFACE strict_defaults_interface)
 
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+	if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS "22")
+		message(FATAL_ERROR "clang 22+ required")
+	endif()
+
 	if(MSVC)
 		# Sanitizers currently do not work very well on Windows
 		set(use_sanitizers OFF)
@@ -106,10 +110,15 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 		"-Wno-zero-as-null-pointer-constant"
 		$<$<CONFIG:Release>:-flto=thin>
 	)
-	if (NOT CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 19)
+	if (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 23)
 		target_compile_options(strict_defaults INTERFACE
-			# Do not warn about [[assume(condition)]]
-			"-Wno-unknown-attributes"
+			# -Wlifetime-safety-intra-tu-suggestions warns in unnamed namespace
+			"-Wno-lifetime-safety-intra-tu-suggestions"
+		)
+	else()
+		target_compile_options(strict_defaults INTERFACE
+			# -Wlifetime-safety-intra-tu-suggestions warns in unnamed namespace
+			"-Wno-experimental-lifetime-safety-intra-tu-suggestions"
 		)
 	endif()
 
