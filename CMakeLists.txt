@@ -116,6 +116,8 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 		target_compile_options(strict_defaults INTERFACE
 			# -Wlifetime-safety-intra-tu-suggestions warns in unnamed namespace
 			"-Wno-lifetime-safety-intra-tu-suggestions"
+			# https://github.com/llvm/llvm-project/issues/187426
+			"-Wno-lifetime-safety-return-stack-addr"
 		)
 	else()
 		target_compile_options(strict_defaults INTERFACE
