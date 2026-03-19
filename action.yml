@@ -11,7 +11,7 @@ inputs:
     default: ''
     type: string
   clang_version:
-    description: 'clang version to use (number)'
+    description: 'clang version to use (just the number or "main")'
     default: 'main'
     type: string
   cmake_args:
