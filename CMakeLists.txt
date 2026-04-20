@@ -66,9 +66,9 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 		# Suggests noreturn on tons of lambdas that just have a body of
 		# `throw whatever`, which adds too much noise
 		"-Wno-missing-noreturn"
-		# No longer relevant with modules
+		# https://github.com/llvm/llvm-project/issues/192996
 		"-Wno-missing-prototypes"
-		# No longer relevant with modules
+		# https://github.com/llvm/llvm-project/issues/192996
 		"-Wno-missing-variable-declarations"
 		# Don't want to write worse code because of the MS ABI
 		"-Wno-ms-bitfield-padding"
