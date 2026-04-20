@@ -55,8 +55,6 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 		"-Wno-c++98-compat-pedantic"
 		# This warning tries to enforce a particular coding standard
 		"-Wno-ctad-maybe-unsupported"
-		# Complains about comments like "//<N3757>" referring to an ISO paper number
-		"-Wno-documentation"
 		# There are too many cases of correct exact comparisons
 		"-Wno-float-equal"
 		# https://github.com/llvm/llvm-project/issues/49009
