@@ -55,9 +55,6 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 		"-Wno-c++98-compat-pedantic"
 		# This warning tries to enforce a particular coding standard
 		"-Wno-ctad-maybe-unsupported"
-		# I cannot understand what makes this warning trigger, but it frequently
-		# warns me about usages inside the standard library.
-		"-Wno-deprecated-declarations"
 		# Complains about comments like "//<N3757>" referring to an ISO paper number
 		"-Wno-documentation"
 		# There are too many cases of correct exact comparisons
