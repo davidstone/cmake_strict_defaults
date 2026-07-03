@@ -61,6 +61,8 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 		"-Wno-for-loop-analysis"
 		# -Wmissing-braces wants two sets of braces for std::array
 		"-Wno-missing-braces"
+		# It seems fine to leave out fields that should have their default value
+		"-Wno-missing-designated-field-initializers"
 		# Suggests noreturn on tons of lambdas that just have a body of
 		# `throw whatever`, which adds too much noise
 		"-Wno-missing-noreturn"
