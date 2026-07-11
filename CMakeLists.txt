@@ -7,14 +7,9 @@ cmake_minimum_required(VERSION 3.28 FATAL_ERROR)
 
 project(cmake_strict_defaults LANGUAGES CXX)
 
-# For options that are necessary to use libraries: turn on latest language
-# features
-add_library(strict_defaults_interface INTERFACE)
 # For options that are not necessary to use libraries, but are how I want to
 # compile tests and source files
 add_library(strict_defaults INTERFACE)
-
-target_link_libraries(strict_defaults INTERFACE strict_defaults_interface)
 
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 	if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS "22")
