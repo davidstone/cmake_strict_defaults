@@ -52,7 +52,7 @@ runs:
           echo "CLANG_BINARY_VERSION=${{inputs.clang_version}}" >> $GITHUB_ENV
         fi
   
-    - uses: lukka/get-cmake@b78306120111dc2522750771cfd09ee7ca723687
+    - uses: lukka/get-cmake@f5b8fbb4d77cec1acc5a5f9f0df4beffaf5d98d9 # 4.3.4
   
     - name: Configure CMake
       shell: bash
