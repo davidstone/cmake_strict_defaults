@@ -2,10 +2,6 @@ name: Build and test
 description: 'Build and run tests for a CMake project using latest tools'
 
 inputs:
-  build_type:
-    description: 'Debug or Release'
-    default: 'Debug'
-    type: string
   dependencies:
     description: 'List of extra dependencies to install'
     default: ''
@@ -59,18 +55,19 @@ runs:
       run: |
         cmake \
           -B ${{github.workspace}}/build \
-          -DCMAKE_BUILD_TYPE=${{inputs.build_type}} \
+          -DCMAKE_BUILD_TYPE=Debug \
           -G"Ninja" \
           -DCMAKE_CXX_COMPILER="clang++-$CLANG_BINARY_VERSION" \
           -DCMAKE_CXX_COMPILER_CLANG_SCAN_DEPS="clang-scan-deps-$CLANG_BINARY_VERSION" \
-          -DCMAKE_EXE_LINKER_FLAGS="-fuse-ld=mold" \
+          -DCMAKE_CXX_FLAGS="-Og -fsanitize=address,undefined" \
+          -DCMAKE_EXE_LINKER_FLAGS="-Wl,--fatal-warnings -fuse-ld=mold -fsanitize=address,undefined" \
           ${{inputs.cmake_args}}
   
     - name: Build
       shell: bash
-      run: cmake --build ${{github.workspace}}/build --config ${{inputs.build_type}}
+      run: cmake --build ${{github.workspace}}/build --config Debug
   
     - name: Test
       shell: bash
       working-directory: ${{github.workspace}}/build
-      run: ctest -C ${{inputs.build_type}} --output-on-failure
+      run: ctest -C Debug --output-on-failure

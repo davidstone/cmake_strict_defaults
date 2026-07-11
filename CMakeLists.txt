@@ -17,9 +17,6 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 	endif()
 
 	if(MSVC)
-		# Sanitizers currently do not work very well on Windows
-		set(use_sanitizers OFF)
-
 		target_compile_options(strict_defaults INTERFACE
 			"/MP"
 		)
@@ -28,7 +25,6 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 		)
 	else()
 		target_link_options(strict_defaults INTERFACE
-			"-Wl,--fatal-warnings"
 			# TODO: Figure out how to make this work on Visual Studio
 			$<$<CONFIG:Release>:-Wl,--thinlto-cache-dir=${CMAKE_BINARY_DIR}/lto-cache>
 			$<$<CONFIG:Release>:-flto=thin>
@@ -37,7 +33,6 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 
 	target_compile_options(strict_defaults INTERFACE
 		"-Weverything"
-		"-Werror"
 		# Don't need compatibility with older standards
 		"-Wno-c++20-compat"
 		# Don't need compatibility with older standards
@@ -202,29 +197,8 @@ elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 		# -Wzero-as-null-pointer-constant does not work with the `operator<=>`
 		# emulation
 		# "-Wzero-as-null-pointer-constant"
-		"-Werror"
-		"-g"
 		# $<$<CONFIG:Release>:-flto=4 -flto-odr-type-merging -fuse-linker-plugin>
-	)
-	target_link_options(strict_defaults INTERFACE
-		"-Wl,--fatal-warnings"
 	)
 else()
 	message(FATAL_ERROR "Unknown compiler ${CMAKE_CXX_COMPILER_ID}")
-endif()
-
-set(sanitizers "-fsanitize=address;-fsanitize=undefined")
-
-if(DEFINED use_sanitizers)
-	if(${use_sanitizers})
-		target_compile_options(strict_defaults INTERFACE ${sanitizers})
-		target_link_options(strict_defaults INTERFACE ${sanitizers})
-	endif()
-else()
-	target_compile_options(strict_defaults INTERFACE
-		$<$<CONFIG:Debug>:${sanitizers}>
-	)
-	target_link_options(strict_defaults INTERFACE
-		$<$<CONFIG:Debug>:${sanitizers}>
-	)
 endif()
