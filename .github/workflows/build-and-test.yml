@@ -40,8 +40,8 @@ jobs:
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # 7.0.1
       with:
-        repository: davidstone/cmake_strict_defaults
-        ref: ${{github.workflow_sha}}
+        repository: ${{job.workflow_repository}}
+        ref: ${{job.workflow_sha}}
 
     - uses: ./
       with:
