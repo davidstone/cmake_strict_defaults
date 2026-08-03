@@ -18,6 +18,7 @@ runs:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # 7.0.1
       with:
         submodules: true
+        path: repo
 
     - name: Install dependencies
       shell: bash
@@ -49,7 +50,7 @@ runs:
       shell: bash
       run: |
         cmake \
-          -S "${{github.workspace}}" \
+          -S "${{github.workspace}}/repo" \
           -B ${{github.workspace}}/build \
           -DCMAKE_BUILD_TYPE=Debug \
           -G"Ninja" \
