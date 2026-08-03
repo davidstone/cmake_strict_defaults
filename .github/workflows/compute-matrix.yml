@@ -21,7 +21,7 @@ jobs:
       - id: set-matrix
         run: |
           if [ "${{inputs.event_name}}" = "schedule" ]; then
-            echo 'matrix={"clang_version":["24"]}' >> "$GITHUB_OUTPUT"
+            echo 'matrix={"clang_version":["main"]}' >> "$GITHUB_OUTPUT"
           else
-            echo 'matrix={"clang_version":["24", "23"]}' >> "$GITHUB_OUTPUT"
+            echo 'matrix={"clang_version":["main", "23"]}' >> "$GITHUB_OUTPUT"
           fi
