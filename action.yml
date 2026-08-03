@@ -26,8 +26,10 @@ runs:
         set -euo pipefail
 
         if [ "${{inputs.clang_version}}" = "main" ]; then
+          clang_binary_version=24
           suffix=""
         else
+          clang_binary_version="${{inputs.clang_version}}"
           suffix="-${{inputs.clang_version}}"
         fi
 
@@ -39,12 +41,9 @@ runs:
           | sudo tee /etc/apt/sources.list.d/llvm.list > /dev/null
 
         sudo apt-get update
-        sudo apt-get install -y cmake ninja-build mold libstdc++-16-dev "clang$suffix" ${{inputs.dependencies}}
+        sudo apt-get install -y cmake ninja-build mold libstdc++-16-dev "clang-$clang_binary_version" "clang-tools-$clang_binary_version" ${{inputs.dependencies}}
 
-        clang_binary_version=$("clang++$suffix" -dumpversion | cut -d. -f1)
         echo "CLANG_BINARY_VERSION=$clang_binary_version" >> $GITHUB_ENV
-
-        sudo apt-get install -y "clang-tools-$clang_binary_version"
 
     - name: Configure CMake
       shell: bash
