@@ -1,0 +1,27 @@
+name: Compute clang version matrix
+
+on:
+  workflow_call:
+    inputs:
+      event_name:
+        description: 'github.event_name from the calling workflow, used to select the build matrix'
+        type: string
+        default: ''
+    outputs:
+      matrix:
+        description: 'JSON matrix of clang_version values to build'
+        value: ${{jobs.compute-matrix.outputs.matrix}}
+
+jobs:
+  compute-matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{steps.set-matrix.outputs.matrix}}
+    steps:
+      - id: set-matrix
+        run: |
+          if [ "${{inputs.event_name}}" = "schedule" ]; then
+            echo 'matrix={"clang_version":["main"]}' >> "$GITHUB_OUTPUT"
+          else
+            echo 'matrix={"clang_version":["main", "23"]}' >> "$GITHUB_OUTPUT"
+          fi

@@ -5,15 +5,12 @@ inputs:
   dependencies:
     description: 'List of extra dependencies to install'
     default: ''
-    type: string
   clang_version:
     description: 'clang version to use (just the number or "main")'
     default: 'main'
-    type: string
   cmake_args:
     description: 'List of extra CMake arguments'
     default: ''
-    type: string
 
 runs:
   using: 'composite'
@@ -21,39 +18,38 @@ runs:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # 7.0.1
       with:
         submodules: true
-  
-    - name: Install clang dependencies
-      shell: bash
-      run: |
-        sudo apt-get update
-        sudo apt-get install mold ${{inputs.dependencies}}
-  
-    - name: Install clang
+
+    - name: Install dependencies
       shell: bash
       run: |
         set -euo pipefail
+
         if [ "${{inputs.clang_version}}" = "main" ]; then
-          wget -qO- https://apt.llvm.org/llvm-snapshot.gpg.key | sudo tee /etc/apt/trusted.gpg.d/llvm.asc > /dev/null
-          echo "deb [signed-by=/etc/apt/trusted.gpg.d/llvm.asc] https://apt.llvm.org/$(lsb_release -sc)/ llvm-toolchain-$(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/llvm.list > /dev/null
-          sudo apt-get update
-          sudo apt-get install clang
-          # $GITHUB_ENV doesn't update the environment within a step...
-          CLANG_BINARY_VERSION=$(clang++ --version | head -n 1 | cut -f 4 -d ' ' | cut -f 1 -d '.')
-          echo "CLANG_BINARY_VERSION=$CLANG_BINARY_VERSION" >> $GITHUB_ENV
-          sudo apt-get install clang-tools-$CLANG_BINARY_VERSION
+          suffix=""
         else
-          wget https://apt.llvm.org/llvm.sh
-          chmod u+x llvm.sh
-          sudo ./llvm.sh ${{inputs.clang_version}} all
-          echo "CLANG_BINARY_VERSION=${{inputs.clang_version}}" >> $GITHUB_ENV
+          suffix="-${{inputs.clang_version}}"
         fi
-  
-    - uses: lukka/get-cmake@e6906078ebd1ccb8ce51ab4626ac46a1b5a517e3 # 4.4.0
-  
+
+        curl -fsSL https://apt.llvm.org/llvm-snapshot.gpg.key \
+          | gpg --dearmor \
+          | sudo tee /usr/share/keyrings/llvm.gpg > /dev/null
+
+        echo "deb [signed-by=/usr/share/keyrings/llvm.gpg] https://apt.llvm.org/$(lsb_release -sc)/ llvm-toolchain-$(lsb_release -sc)$suffix main" \
+          | sudo tee /etc/apt/sources.list.d/llvm.list > /dev/null
+
+        sudo apt-get update
+        sudo apt-get install -y cmake ninja-build mold libstdc++-16-dev "clang$suffix" ${{inputs.dependencies}}
+
+        clang_binary_version=$("clang++$suffix" -dumpversion | cut -d. -f1)
+        echo "CLANG_BINARY_VERSION=$clang_binary_version" >> $GITHUB_ENV
+
+        sudo apt-get install -y "clang-tools-$clang_binary_version"
+
     - name: Configure CMake
       shell: bash
       run: |
         cmake \
+          -S "${{github.workspace}}" \
           -B ${{github.workspace}}/build \
           -DCMAKE_BUILD_TYPE=Debug \
           -G"Ninja" \
@@ -62,12 +58,13 @@ runs:
           -DCMAKE_CXX_FLAGS="-Og -fsanitize=address,undefined" \
           -DCMAKE_EXE_LINKER_FLAGS="-Wl,--fatal-warnings -fuse-ld=mold -fsanitize=address,undefined" \
           ${{inputs.cmake_args}}
-  
+
     - name: Build
       shell: bash
-      run: cmake --build ${{github.workspace}}/build --config Debug
-  
+      run: cmake --build ${{github.workspace}}/build
+
     - name: Test
       shell: bash
       working-directory: ${{github.workspace}}/build
-      run: ctest -C Debug --output-on-failure
+      run: |
+        ctest --output-on-failure -j$(nproc)
