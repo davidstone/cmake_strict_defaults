@@ -92,8 +92,6 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 		"-Wno-unused-template"
 		# Causes a conflict in module definitions. TODO: file bug
 		"-Wno-unsafe-buffer-usage"
-		# https://github.com/llvm/llvm-project/issues/193004
-		"-Wno-weak-vtables"
 		# https://github.com/llvm/llvm-project/issues/43670
 		"-Wno-zero-as-null-pointer-constant"
 		$<$<CONFIG:Release>:-flto=thin>
