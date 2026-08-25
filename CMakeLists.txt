@@ -96,10 +96,8 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 		target_compile_options(strict_defaults INTERFACE
 			# -Wlifetime-safety-intra-tu-suggestions warns in unnamed namespace
 			"-Wno-lifetime-safety-intra-tu-suggestions"
-			# https://github.com/llvm/llvm-project/issues/204210
-			"-Wno-lifetime-safety-all"
-			# https://github.com/llvm/llvm-project/issues/204213
-			"-Wno-lifetime-safety-dangling-global-moved"
+			# https://github.com/llvm/llvm-project/issues/207269
+			"-Wno-lifetime-safety-invalidation"
 		)
 	else()
 		target_compile_options(strict_defaults INTERFACE
