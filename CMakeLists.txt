@@ -12,8 +12,8 @@ project(cmake_strict_defaults LANGUAGES CXX)
 add_library(strict_defaults INTERFACE)
 
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-	if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS "22")
-		message(FATAL_ERROR "clang 22+ required")
+	if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS "23")
+		message(FATAL_ERROR "clang 23+ required")
 	endif()
 
 	if(MSVC)
@@ -92,17 +92,19 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 		"-Wno-zero-as-null-pointer-constant"
 		$<$<CONFIG:Release>:-flto=thin>
 	)
-	if (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 23)
+	if (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 24)
 		target_compile_options(strict_defaults INTERFACE
+			# Too many bugs to enable in this version
+			"-Wno-lifetime-safety-experimental"
 			# -Wlifetime-safety-intra-tu-suggestions warns in unnamed namespace
 			"-Wno-lifetime-safety-intra-tu-suggestions"
-			# https://github.com/llvm/llvm-project/issues/207269
-			"-Wno-lifetime-safety-invalidation"
+			# https://github.com/llvm/llvm-project/issues/238085
+			"-Wno-lifetime-safety-lifetimebound-violation"
 		)
 	else()
 		target_compile_options(strict_defaults INTERFACE
-			# -Wlifetime-safety-intra-tu-suggestions warns in unnamed namespace
-			"-Wno-experimental-lifetime-safety-intra-tu-suggestions"
+			# Too many bugs to enable in this version
+			"-Wno-lifetime-safety-all"
 		)
 	endif()
 
