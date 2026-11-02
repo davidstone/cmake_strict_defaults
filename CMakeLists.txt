@@ -15,22 +15,6 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 	if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS "23")
 		message(FATAL_ERROR "clang 23+ required")
 	endif()
-
-	if(MSVC)
-		target_compile_options(strict_defaults INTERFACE
-			"/MP"
-		)
-		target_link_options(strict_defaults INTERFACE
-			"/WX"
-		)
-	else()
-		target_link_options(strict_defaults INTERFACE
-			# TODO: Figure out how to make this work on Visual Studio
-			$<$<CONFIG:Release>:-Wl,--thinlto-cache-dir=${CMAKE_BINARY_DIR}/lto-cache>
-			$<$<CONFIG:Release>:-flto=thin>
-		)
-	endif()
-
 	target_compile_options(strict_defaults INTERFACE
 		"-Weverything"
 		# Don't need compatibility with older standards
@@ -90,7 +74,6 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 		"-Wno-unsafe-buffer-usage"
 		# https://github.com/llvm/llvm-project/issues/43670
 		"-Wno-zero-as-null-pointer-constant"
-		$<$<CONFIG:Release>:-flto=thin>
 	)
 	if (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 24)
 		target_compile_options(strict_defaults INTERFACE
