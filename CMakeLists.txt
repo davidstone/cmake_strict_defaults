@@ -62,6 +62,8 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 		"-Wno-switch-default"
 		# -Wswitch-enum warns even if you have default
 		"-Wno-switch-enum"
+		# False positives
+		"-Wno-thread-safety-negative"
 		# https://github.com/llvm/llvm-project/issues/25458
 		"-Wno-unneeded-member-function"
 		# https://github.com/llvm/llvm-project/issues/25458
