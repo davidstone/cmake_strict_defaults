@@ -16,7 +16,7 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 		message(FATAL_ERROR "clang 23+ required")
 	endif()
 	if(MSVC)
-		target_compile_definitions(strict_defaults "_CRT_SECURE_NO_WARNINGS")
+		target_compile_definitions(strict_defaults INTERFACE "_CRT_SECURE_NO_WARNINGS")
 	endif()
 	target_compile_options(strict_defaults INTERFACE
 		"-Weverything"
