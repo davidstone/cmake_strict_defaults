@@ -11,8 +11,7 @@ project(cmake_strict_defaults LANGUAGES CXX)
 # compile tests and source files
 add_library(strict_defaults INTERFACE)
 
-if(MSVC)
-	message(STATUS "MSVC")
+if(WIN32)
 	target_compile_definitions(strict_defaults INTERFACE "_CRT_SECURE_NO_WARNINGS")
 endif()
 
